@@ -1,0 +1,555 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		57FFD0E82FBF04BA00841CAF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 57FFD0D22FBF04B900841CAF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57FFD0D92FBF04B900841CAF;
+			remoteInfo = "Park&Ride";
+		};
+		57FFD0F22FBF04BA00841CAF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 57FFD0D22FBF04B900841CAF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57FFD0D92FBF04B900841CAF;
+			remoteInfo = "Park&Ride";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		57FFD0DA2FBF04B900841CAF /* Park&Ride.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Park&Ride.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		57FFD0E72FBF04BA00841CAF /* Park&RideTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Park&RideTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		57FFD0F12FBF04BA00841CAF /* Park&RideUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Park&RideUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		57FFD0DC2FBF04B900841CAF /* Park&Ride */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Park&Ride";
+			sourceTree = "<group>";
+		};
+		57FFD0EA2FBF04BA00841CAF /* Park&RideTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Park&RideTests";
+			sourceTree = "<group>";
+		};
+		57FFD0F42FBF04BA00841CAF /* Park&RideUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Park&RideUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		57FFD0D72FBF04B900841CAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57FFD0E42FBF04BA00841CAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57FFD0EE2FBF04BA00841CAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		57FFD0D12FBF04B900841CAF = {
+			isa = PBXGroup;
+			children = (
+				57FFD0DC2FBF04B900841CAF /* Park&Ride */,
+				57FFD0EA2FBF04BA00841CAF /* Park&RideTests */,
+				57FFD0F42FBF04BA00841CAF /* Park&RideUITests */,
+				57FFD0DB2FBF04B900841CAF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		57FFD0DB2FBF04B900841CAF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				57FFD0DA2FBF04B900841CAF /* Park&Ride.app */,
+				57FFD0E72FBF04BA00841CAF /* Park&RideTests.xctest */,
+				57FFD0F12FBF04BA00841CAF /* Park&RideUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		57FFD0D92FBF04B900841CAF /* Park&Ride */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57FFD0FB2FBF04BA00841CAF /* Build configuration list for PBXNativeTarget "Park&Ride" */;
+			buildPhases = (
+				57FFD0D62FBF04B900841CAF /* Sources */,
+				57FFD0D72FBF04B900841CAF /* Frameworks */,
+				57FFD0D82FBF04B900841CAF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				57FFD0DC2FBF04B900841CAF /* Park&Ride */,
+			);
+			name = "Park&Ride";
+			packageProductDependencies = (
+			);
+			productName = "Park&Ride";
+			productReference = 57FFD0DA2FBF04B900841CAF /* Park&Ride.app */;
+			productType = "com.apple.product-type.application";
+		};
+		57FFD0E62FBF04BA00841CAF /* Park&RideTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57FFD0FE2FBF04BA00841CAF /* Build configuration list for PBXNativeTarget "Park&RideTests" */;
+			buildPhases = (
+				57FFD0E32FBF04BA00841CAF /* Sources */,
+				57FFD0E42FBF04BA00841CAF /* Frameworks */,
+				57FFD0E52FBF04BA00841CAF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57FFD0E92FBF04BA00841CAF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				57FFD0EA2FBF04BA00841CAF /* Park&RideTests */,
+			);
+			name = "Park&RideTests";
+			packageProductDependencies = (
+			);
+			productName = "Park&RideTests";
+			productReference = 57FFD0E72FBF04BA00841CAF /* Park&RideTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		57FFD0F02FBF04BA00841CAF /* Park&RideUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57FFD1012FBF04BA00841CAF /* Build configuration list for PBXNativeTarget "Park&RideUITests" */;
+			buildPhases = (
+				57FFD0ED2FBF04BA00841CAF /* Sources */,
+				57FFD0EE2FBF04BA00841CAF /* Frameworks */,
+				57FFD0EF2FBF04BA00841CAF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57FFD0F32FBF04BA00841CAF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				57FFD0F42FBF04BA00841CAF /* Park&RideUITests */,
+			);
+			name = "Park&RideUITests";
+			packageProductDependencies = (
+			);
+			productName = "Park&RideUITests";
+			productReference = 57FFD0F12FBF04BA00841CAF /* Park&RideUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		57FFD0D22FBF04B900841CAF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					57FFD0D92FBF04B900841CAF = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					57FFD0E62FBF04BA00841CAF = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 57FFD0D92FBF04B900841CAF;
+					};
+					57FFD0F02FBF04BA00841CAF = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 57FFD0D92FBF04B900841CAF;
+					};
+				};
+			};
+			buildConfigurationList = 57FFD0D52FBF04B900841CAF /* Build configuration list for PBXProject "Park&Ride" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 57FFD0D12FBF04B900841CAF;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 57FFD0DB2FBF04B900841CAF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				57FFD0D92FBF04B900841CAF /* Park&Ride */,
+				57FFD0E62FBF04BA00841CAF /* Park&RideTests */,
+				57FFD0F02FBF04BA00841CAF /* Park&RideUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		57FFD0D82FBF04B900841CAF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57FFD0E52FBF04BA00841CAF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57FFD0EF2FBF04BA00841CAF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		57FFD0D62FBF04B900841CAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57FFD0E32FBF04BA00841CAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57FFD0ED2FBF04BA00841CAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		57FFD0E92FBF04BA00841CAF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57FFD0D92FBF04B900841CAF /* Park&Ride */;
+			targetProxy = 57FFD0E82FBF04BA00841CAF /* PBXContainerItemProxy */;
+		};
+		57FFD0F32FBF04BA00841CAF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57FFD0D92FBF04B900841CAF /* Park&Ride */;
+			targetProxy = 57FFD0F22FBF04BA00841CAF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		57FFD0F92FBF04BA00841CAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		57FFD0FA2FBF04BA00841CAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		57FFD0FC2FBF04BA00841CAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rtcq.Park-Ride";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		57FFD0FD2FBF04BA00841CAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rtcq.Park-Ride";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		57FFD0FF2FBF04BA00841CAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rtcq.Park-RideTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Park&Ride.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Park&Ride";
+			};
+			name = Debug;
+		};
+		57FFD1002FBF04BA00841CAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rtcq.Park-RideTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Park&Ride.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Park&Ride";
+			};
+			name = Release;
+		};
+		57FFD1022FBF04BA00841CAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rtcq.Park-RideUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Park&Ride";
+			};
+			name = Debug;
+		};
+		57FFD1032FBF04BA00841CAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rtcq.Park-RideUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Park&Ride";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		57FFD0D52FBF04B900841CAF /* Build configuration list for PBXProject "Park&Ride" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57FFD0F92FBF04BA00841CAF /* Debug */,
+				57FFD0FA2FBF04BA00841CAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57FFD0FB2FBF04BA00841CAF /* Build configuration list for PBXNativeTarget "Park&Ride" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57FFD0FC2FBF04BA00841CAF /* Debug */,
+				57FFD0FD2FBF04BA00841CAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57FFD0FE2FBF04BA00841CAF /* Build configuration list for PBXNativeTarget "Park&RideTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57FFD0FF2FBF04BA00841CAF /* Debug */,
+				57FFD1002FBF04BA00841CAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57FFD1012FBF04BA00841CAF /* Build configuration list for PBXNativeTarget "Park&RideUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57FFD1022FBF04BA00841CAF /* Debug */,
+				57FFD1032FBF04BA00841CAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 57FFD0D22FBF04B900841CAF /* Project object */;
+}
