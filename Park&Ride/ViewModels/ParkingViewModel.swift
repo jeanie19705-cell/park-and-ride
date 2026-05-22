@@ -42,23 +42,27 @@ final class ParkingViewModel {
                   let total = park.totalSpots, total > 0 else { continue }
 
             let pct = Int(Double(available) / Double(total) * 100)
-            guard pct < alert.threshold else { continue }
+            let isBelowThreshold = pct < alert.threshold
 
-            // Throttle to once per 30 minutes per facility
-            if let last = lastNotified[id], now.timeIntervalSince(last) < 1800 { continue }
-            lastNotified[id] = now
-
-            NotificationService.fire(
-                facilityId: id,
-                title: park.facility_name ?? "Park & Ride",
-                body: "Only \(pct)% available — \(available) of \(total) spaces left."
-            )
+            if isBelowThreshold {
+                // Only fire on the transition from above → below threshold
+                guard !activeAlerts.contains(id) else { continue }
+                activeAlerts.insert(id)
+                NotificationService.fire(
+                    facilityId: id,
+                    title: park.facility_name ?? "Park & Ride",
+                    body: "Only \(pct)% available — \(available) of \(total) spaces left."
+                )
+            } else {
+                // Recovered — allow the alert to fire again next time it drops
+                activeAlerts.remove(id)
+            }
         }
     }
 
     private var refreshTask: Task<Void, Never>?
     private let refreshInterval = 60
-    private var lastNotified: [String: Date] = [:]
+    private var activeAlerts: Set<String> = []
 
     func startAutoRefresh() {
         refreshTask?.cancel()

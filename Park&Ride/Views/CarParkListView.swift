@@ -51,6 +51,7 @@ struct CarParkListView: View {
                     } else {
                         ForEach(filtered) { carPark in row(carPark) }
                     }
+
                 }
                 .refreshable { await viewModel.refresh() }
                 .overlay {
@@ -60,7 +61,7 @@ struct CarParkListView: View {
                 }
             }
         }
-        .searchable(text: $searchText, prompt: "Name or suburb")
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Name or suburb")
     }
 
     @ViewBuilder
