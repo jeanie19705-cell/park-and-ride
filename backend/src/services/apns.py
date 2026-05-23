@@ -1,32 +1,34 @@
 from __future__ import annotations
 
 import os
+import time
 
-from apns2.client import APNsClient
-from apns2.credentials import TokenCredentials
-from apns2.payload import Payload
-
-_client: APNsClient | None = None
+import httpx
+import jwt
 
 
-def _get_client() -> APNsClient:
-    global _client
-    if _client is None:
-        creds = TokenCredentials(
-            auth_key_path=os.environ["APNS_KEY_PATH"],
-            auth_key_id=os.environ["APNS_KEY_ID"],
-            team_id=os.environ["APNS_TEAM_ID"],
+def _make_jwt() -> str:
+    token = jwt.encode(
+        {"iss": os.environ["APNS_TEAM_ID"], "iat": int(time.time())},
+        os.environ["APNS_KEY"].replace("\\n", "\n"),
+        algorithm="ES256",
+        headers={"kid": os.environ["APNS_KEY_ID"]},
+    )
+    return token if isinstance(token, str) else token.decode()
+
+
+async def send_alert(apns_token: str, title: str, body: str):
+    use_sandbox = os.environ.get("APNS_SANDBOX", "false").lower() == "true"
+    host = "api.sandbox.push.apple.com" if use_sandbox else "api.push.apple.com"
+
+    async with httpx.AsyncClient(http2=True) as client:
+        resp = await client.post(
+            f"https://{host}/3/device/{apns_token}",
+            json={"aps": {"alert": {"title": title, "body": body}, "sound": "default"}},
+            headers={
+                "authorization": f"bearer {_make_jwt()}",
+                "apns-topic": os.environ["APNS_BUNDLE_ID"],
+                "apns-push-type": "alert",
+            },
         )
-        use_sandbox = os.environ.get("APNS_SANDBOX", "false").lower() == "true"
-        _client = APNsClient(
-            credentials=creds,
-            use_sandbox=use_sandbox,
-            use_alternative_port=False,
-        )
-    return _client
-
-
-def send_alert(apns_token: str, title: str, body: str):
-    bundle_id = os.environ["APNS_BUNDLE_ID"]
-    payload = Payload(alert={"title": title, "body": body}, sound="default")
-    _get_client().send_notification(apns_token, payload, topic=bundle_id)
+        resp.raise_for_status()

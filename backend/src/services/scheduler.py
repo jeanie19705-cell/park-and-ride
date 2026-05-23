@@ -93,7 +93,7 @@ async def _evaluate_alerts():
                     row["device_id"], row["facility_id"], row["apns_token"], available_pct,
                 )
                 try:
-                    apns.send_alert(
+                    await apns.send_alert(
                         apns_token=row["apns_token"],
                         title=row["facility_name"] or "Park & Ride",
                         body=f"Only {available_pct}% available — {row['available_spots']} of {row['total_spots']} spaces left.",
