@@ -24,7 +24,7 @@ struct ContentView: View {
 
             Tab("Map", systemImage: "map") {
                 NavigationStack {
-                    ParkMapView(carParks: viewModel.carParks)
+                    ParkMapView(viewModel: viewModel)
                         .navigationTitle("Map")
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
@@ -44,10 +44,10 @@ struct ContentView: View {
             if !isPresented { Task { await viewModel.refresh() } }
         }
         .task {
+            applyColorScheme(UserDefaults.standard.string(forKey: "app_color_scheme") ?? "light")
             viewModel.startAutoRefresh()
             await NotificationService.registerForPushNotifications()
         }
-        .preferredColorScheme(.light)
     }
 
     @ViewBuilder
@@ -65,6 +65,24 @@ struct ContentView: View {
                 .allowsHitTesting(false)
         }
     }
+}
+
+func applyColorScheme(_ scheme: String) {
+    let style: UIUserInterfaceStyle = scheme == "dark" ? .dark : .light
+    UIApplication.shared.connectedScenes
+        .compactMap { $0 as? UIWindowScene }
+        .flatMap { $0.windows }
+        .forEach { window in
+            window.overrideUserInterfaceStyle = style
+            applyStyle(style, to: window.rootViewController)
+        }
+}
+
+private func applyStyle(_ style: UIUserInterfaceStyle, to vc: UIViewController?) {
+    guard let vc else { return }
+    vc.overrideUserInterfaceStyle = style
+    vc.children.forEach { applyStyle(style, to: $0) }
+    if let presented = vc.presentedViewController { applyStyle(style, to: presented) }
 }
 
 #Preview {

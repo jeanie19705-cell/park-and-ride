@@ -41,7 +41,7 @@ struct CarParkListView: View {
                 List {
                     if searchText.isEmpty {
                         if !pinned.isEmpty {
-                            Section("Pinned") {
+                            Section("Favourites") {
                                 ForEach(pinned) { carPark in row(carPark) }
                             }
                         }
@@ -53,8 +53,6 @@ struct CarParkListView: View {
                     }
 
                 }
-                .scrollContentBackground(.hidden)
-                .background(Color("AppBackground"))
                 .refreshable { await viewModel.refresh() }
                 .overlay {
                     if !searchText.isEmpty && filtered.isEmpty {
@@ -74,8 +72,8 @@ struct CarParkListView: View {
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
             Button { viewModel.togglePin(carPark) } label: {
                 Label(
-                    viewModel.isPinned(carPark) ? "Unpin" : "Pin",
-                    systemImage: viewModel.isPinned(carPark) ? "pin.slash" : "pin"
+                    viewModel.isPinned(carPark) ? "Unfavourite" : "Favourite",
+                    systemImage: viewModel.isPinned(carPark) ? "star.slash" : "star"
                 )
             }
             .tint(.yellow)
@@ -93,16 +91,9 @@ struct CarParkRow: View {
                 .frame(width: 52, height: 52)
 
             VStack(alignment: .leading, spacing: 3) {
-                HStack(spacing: 4) {
-                    Text(carPark.facility_name ?? "Car Park \(carPark.facility_id)")
-                        .font(.headline)
-                        .lineLimit(2)
-                    if isPinned {
-                        Image(systemName: "pin.fill")
-                            .font(.caption2)
-                            .foregroundStyle(.yellow)
-                    }
-                }
+                Text(carPark.facility_name ?? "Car Park \(carPark.facility_id)")
+                    .font(.headline)
+                    .lineLimit(2)
 
                 if let address = carPark.location?.address {
                     Text(address)
@@ -120,6 +111,14 @@ struct CarParkRow: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
+            }
+
+            Spacer()
+
+            if isPinned {
+                Image(systemName: "star.fill")
+                    .font(.caption)
+                    .foregroundStyle(.yellow)
             }
         }
         .padding(.vertical, 4)

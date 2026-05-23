@@ -2,7 +2,9 @@ import SwiftUI
 import MapKit
 
 struct ParkMapView: View {
-    let carParks: [BackendCarPark]
+    let viewModel: ParkingViewModel
+
+    private var carParks: [BackendCarPark] { viewModel.carParks }
 
     @State private var locationManager = LocationManager()
     @State private var selectedPark: BackendCarPark?
@@ -45,6 +47,19 @@ struct ParkMapView: View {
         .sheet(item: $selectedPark) { park in
             NavigationStack {
                 CarParkDetailView(carPark: park)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button {
+                                viewModel.togglePin(park)
+                            } label: {
+                                Label(
+                                    viewModel.isPinned(park) ? "Unfavourite" : "Favourite",
+                                    systemImage: viewModel.isPinned(park) ? "star.fill" : "star"
+                                )
+                            }
+                            .tint(.yellow)
+                        }
+                    }
             }
             .presentationDetents([.medium, .large])
         }

@@ -2,25 +2,37 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @AppStorage("app_color_scheme") private var colorScheme = "light"
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("Data") {
-                    LabeledContent("Source", value: "Park & Ride Backend")
-                    LabeledContent("Refresh interval", value: "60 seconds")
+                Section("Appearance") {
+                    Toggle("🌗 Dark Mode", isOn: Binding(
+                        get: { colorScheme == "dark" },
+                        set: { isDark in
+                            let newValue = isDark ? "dark" : "light"
+                            applyColorScheme(newValue)
+                            colorScheme = newValue
+                        }
+                    ))
                 }
 
                 Section("About") {
-                    LabeledContent("App", value: "Park'n Ride")
+                    LabeledContent("Version", value: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")
                     LabeledContent("Data", value: "Transport for NSW")
                     Link(destination: URL(string: "https://buymeacoffee.com/jezi_")!) {
-                        Text("☕ Enjoy the app? Buy me a coffee :)")
+                        HStack {
+                            Text("☕ Enjoy the app? Buy me a coffee :)")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
+                        }
                     }
+                    .tint(.primary)
                 }
             }
-            .scrollContentBackground(.hidden)
-            .background(Color("AppBackground"))
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
