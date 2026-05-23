@@ -1,11 +1,13 @@
 import SwiftUI
 import MapKit
+import Charts
 
 struct CarParkDetailView: View {
     let carPark: BackendCarPark
     @State private var refreshed: BackendCarPark?
     @State private var isRefreshing = false
     @State private var errorMessage: String?
+    @State private var history: [OccupancyReading] = []
 
     @State private var alertEnabled = false
     @State private var startTime = Calendar.current.date(bySettingHour: 7, minute: 0, second: 0, of: .now)!
@@ -14,6 +16,13 @@ struct CarParkDetailView: View {
     @State private var showPermissionDenied = false
 
     private var displayed: BackendCarPark { refreshed ?? carPark }
+
+    private var chartColor: Color {
+        guard let f = displayed.occupancyFraction else { return .secondary }
+        if f < 0.60 { return .green }
+        if f < 0.85 { return .orange }
+        return .occupancyRed
+    }
 
     var body: some View {
         List {
@@ -35,6 +44,40 @@ struct CarParkDetailView: View {
                     ProgressView(value: fraction).tint(color).padding(.vertical, 4)
                 } else {
                     Text("No occupancy data available").foregroundStyle(.secondary)
+                }
+            }
+
+            if !history.isEmpty {
+                Section("Today's Occupancy") {
+                    Chart(history) { reading in
+                        LineMark(
+                            x: .value("Time", reading.timestamp),
+                            y: .value("Occupancy", reading.fraction * 100)
+                        )
+                        .foregroundStyle(chartColor)
+                        .interpolationMethod(.catmullRom)
+                        AreaMark(
+                            x: .value("Time", reading.timestamp),
+                            y: .value("Occupancy", reading.fraction * 100)
+                        )
+                        .foregroundStyle(chartColor.opacity(0.1))
+                        .interpolationMethod(.catmullRom)
+                    }
+                    .chartYScale(domain: 0...100)
+                    .chartYAxis {
+                        AxisMarks(values: [0, 25, 50, 75, 100]) { value in
+                            AxisGridLine()
+                            AxisValueLabel { Text("\(value.as(Int.self) ?? 0)%").font(.caption2) }
+                        }
+                    }
+                    .chartXAxis {
+                        AxisMarks(values: .stride(by: .hour, count: 3)) { _ in
+                            AxisGridLine()
+                            AxisValueLabel(format: .dateTime.hour())
+                        }
+                    }
+                    .frame(height: 160)
+                    .padding(.vertical, 8)
                 }
             }
 
@@ -104,6 +147,7 @@ struct CarParkDetailView: View {
         .task {
             await fetchLatest()
             await loadAlert()
+            await loadHistory()
         }
         .alert("Notifications Disabled", isPresented: $showPermissionDenied) {
             Button("Open Settings") {
@@ -165,6 +209,10 @@ struct CarParkDetailView: View {
         let item = MKMapItem(placemark: placemark)
         item.name = displayed.facility_name
         return item
+    }
+
+    private func loadHistory() async {
+        history = (try? await BackendService.shared.fetchHistory(facilityId: carPark.facility_id)) ?? []
     }
 
     private func fetchLatest() async {

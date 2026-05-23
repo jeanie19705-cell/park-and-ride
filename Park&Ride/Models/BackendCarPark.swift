@@ -1,5 +1,15 @@
 import Foundation
 
+struct OccupancyReading: Decodable, Identifiable {
+    let timestamp: Date
+    let available: Int
+    let total: Int
+    let occupancy_fraction: Double?
+
+    var id: Date { timestamp }
+    var fraction: Double { occupancy_fraction ?? 0 }
+}
+
 struct ParkLocation {
     let suburb: String?
     let address: String?

@@ -23,6 +23,15 @@ struct BackendService {
         try await get("/carparks/\(facilityId)")
     }
 
+    func fetchHistory(facilityId: String) async throws -> [OccupancyReading] {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        var req = URLRequest(url: URL(string: base + "/carparks/\(facilityId)/history")!)
+        req.setValue(apiKey, forHTTPHeaderField: "x-api-key")
+        let (data, _) = try await URLSession.shared.data(for: req)
+        return try decoder.decode([OccupancyReading].self, from: data)
+    }
+
     // MARK: — Device
 
     func registerDevice(apnsToken: String) async throws {
