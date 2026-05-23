@@ -8,6 +8,7 @@ from fastapi import FastAPI
 load_dotenv()
 
 from db.client import close_pool, get_pool
+from middleware.api_key import APIKeyMiddleware
 from routes import alerts, carparks, devices
 from services import scheduler
 
@@ -24,6 +25,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Park & Ride API", lifespan=lifespan)
+app.add_middleware(APIKeyMiddleware)
 
 app.include_router(devices.router)
 app.include_router(alerts.router)
