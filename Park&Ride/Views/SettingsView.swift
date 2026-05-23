@@ -1,51 +1,32 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("tfnsw_api_key") private var apiKey = ""
     @Environment(\.dismiss) private var dismiss
-    @State private var draft = ""
 
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    SecureField("Paste your API key here", text: $draft)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .font(.system(.body, design: .monospaced))
-                } header: {
-                    Text("TfNSW Open Data API Key")
-                } footer: {
-                    Text("Required to fetch live carpark data. Your key is stored only on this device.")
-                }
-
-                Section {
-                    Link(destination: URL(string: "https://opendata.transport.nsw.gov.au/user/register")!) {
-                        Label("Register for a free API key", systemImage: "globe")
-                    }
+                Section("Data") {
+                    LabeledContent("Source", value: "Park & Ride Backend")
+                    LabeledContent("Refresh interval", value: "60 seconds")
                 }
 
                 Section("About") {
-                    LabeledContent("Endpoint", value: "api.transport.nsw.gov.au")
-                    LabeledContent("Refresh interval", value: "60 seconds")
+                    LabeledContent("App", value: "Park & Ride")
+                    LabeledContent("Data", value: "Transport for NSW")
+                    Link(destination: URL(string: "https://buymeacoffee.com/jezi_")!) {
+                        Text("☕ Enjoy the app? Buy me a coffee :)")
+                    }
                 }
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        apiKey = draft.trimmingCharacters(in: .whitespacesAndNewlines)
-                        dismiss()
-                    }
-                    .fontWeight(.semibold)
-                    .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    Button("Done") { dismiss() }
+                        .fontWeight(.semibold)
                 }
             }
-            .onAppear { draft = apiKey }
         }
     }
 }

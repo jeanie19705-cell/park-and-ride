@@ -1,3 +1,4 @@
+import UIKit
 import UserNotifications
 
 struct NotificationService {
@@ -7,6 +8,14 @@ struct NotificationService {
                 .requestAuthorization(options: [.alert, .sound])
         } catch {
             return false
+        }
+    }
+
+    static func registerForPushNotifications() async {
+        let granted = await requestPermission()
+        guard granted else { return }
+        await MainActor.run {
+            UIApplication.shared.registerForRemoteNotifications()
         }
     }
 

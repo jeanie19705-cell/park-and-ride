@@ -3,7 +3,7 @@ import Foundation
 @MainActor
 @Observable
 final class ParkingViewModel {
-    var carParks: [CarPark] = []
+    var carParks: [BackendCarPark] = []
     var isLoading = false
     var errorMessage: String?
     var lastUpdated: Date?
@@ -13,56 +13,21 @@ final class ParkingViewModel {
         return Set(raw.split(separator: ",").map(String.init).filter { !$0.isEmpty })
     }()
 
-    func togglePin(_ carPark: CarPark) {
-        guard let id = carPark.facility_id else { return }
-        if pinnedIDs.contains(id) { pinnedIDs.remove(id) } else { pinnedIDs.insert(id) }
+    func togglePin(_ carPark: BackendCarPark) {
+        if pinnedIDs.contains(carPark.facility_id) {
+            pinnedIDs.remove(carPark.facility_id)
+        } else {
+            pinnedIDs.insert(carPark.facility_id)
+        }
         UserDefaults.standard.set(pinnedIDs.joined(separator: ","), forKey: "pinned_facility_ids")
     }
 
-    func isPinned(_ carPark: CarPark) -> Bool {
-        carPark.facility_id.map { pinnedIDs.contains($0) } ?? false
-    }
-
-    private func checkAlerts() {
-        let calendar = Calendar.current
-        let now = Date()
-        let currentMinutes = calendar.component(.hour, from: now) * 60
-                           + calendar.component(.minute, from: now)
-        let alerts = AlertStore.all()
-
-        for park in carParks {
-            guard let id = park.facility_id,
-                  let alert = alerts[id], alert.isEnabled else { continue }
-
-            let start = alert.startHour * 60 + alert.startMinute
-            let end   = alert.endHour   * 60 + alert.endMinute
-            guard currentMinutes >= start && currentMinutes <= end else { continue }
-
-            guard let available = park.availableSpots,
-                  let total = park.totalSpots, total > 0 else { continue }
-
-            let pct = Int(Double(available) / Double(total) * 100)
-            let isBelowThreshold = pct < alert.threshold
-
-            if isBelowThreshold {
-                // Only fire on the transition from above → below threshold
-                guard !activeAlerts.contains(id) else { continue }
-                activeAlerts.insert(id)
-                NotificationService.fire(
-                    facilityId: id,
-                    title: park.facility_name ?? "Park & Ride",
-                    body: "Only \(pct)% available — \(available) of \(total) spaces left."
-                )
-            } else {
-                // Recovered — allow the alert to fire again next time it drops
-                activeAlerts.remove(id)
-            }
-        }
+    func isPinned(_ carPark: BackendCarPark) -> Bool {
+        pinnedIDs.contains(carPark.facility_id)
     }
 
     private var refreshTask: Task<Void, Never>?
     private let refreshInterval = 60
-    private var activeAlerts: Set<String> = []
 
     func startAutoRefresh() {
         refreshTask?.cancel()
@@ -88,10 +53,9 @@ final class ParkingViewModel {
         isLoading = true
         errorMessage = nil
         do {
-            carParks = try await ParkingService.shared.fetchAllCarParks()
+            carParks = try await BackendService.shared.fetchAllCarParks()
             lastUpdated = Date()
             secondsUntilRefresh = refreshInterval
-            checkAlerts()
         } catch {
             errorMessage = error.localizedDescription
         }

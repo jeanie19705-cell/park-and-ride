@@ -57,15 +57,11 @@ struct ContentView: View {
             SettingsView()
         }
         .onChange(of: showSettings) { _, isPresented in
-            if !isPresented { viewModel.startAutoRefresh() }
+            if !isPresented { Task { await viewModel.refresh() } }
         }
         .task {
-            let hasKey = !(UserDefaults.standard.string(forKey: "tfnsw_api_key") ?? "").isEmpty
-            if hasKey {
-                viewModel.startAutoRefresh()
-            } else {
-                showSettings = true
-            }
+            viewModel.startAutoRefresh()
+            await NotificationService.registerForPushNotifications()
         }
         .preferredColorScheme(preferredColorScheme)
     }

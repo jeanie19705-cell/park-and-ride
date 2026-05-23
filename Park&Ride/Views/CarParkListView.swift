@@ -4,15 +4,15 @@ struct CarParkListView: View {
     let viewModel: ParkingViewModel
     @State private var searchText = ""
 
-    private var pinned: [CarPark] {
+    private var pinned: [BackendCarPark] {
         viewModel.carParks.filter { viewModel.isPinned($0) }
     }
 
-    private var others: [CarPark] {
+    private var others: [BackendCarPark] {
         viewModel.carParks.filter { !viewModel.isPinned($0) }
     }
 
-    private var filtered: [CarPark] {
+    private var filtered: [BackendCarPark] {
         let q = searchText.lowercased()
         return viewModel.carParks.filter {
             ($0.facility_name?.lowercased().contains(q) == true) ||
@@ -35,7 +35,7 @@ struct CarParkListView: View {
                 ContentUnavailableView {
                     Label("No Car Parks", systemImage: "parkingsign.circle")
                 } description: {
-                    Text("Make sure your API key is correct in Settings.")
+                    Text("Unable to load car parks. Pull down to retry.")
                 }
             } else {
                 List {
@@ -65,7 +65,7 @@ struct CarParkListView: View {
     }
 
     @ViewBuilder
-    private func row(_ carPark: CarPark) -> some View {
+    private func row(_ carPark: BackendCarPark) -> some View {
         NavigationLink(destination: CarParkDetailView(carPark: carPark)) {
             CarParkRow(carPark: carPark, isPinned: viewModel.isPinned(carPark))
         }
@@ -82,7 +82,7 @@ struct CarParkListView: View {
 }
 
 struct CarParkRow: View {
-    let carPark: CarPark
+    let carPark: BackendCarPark
     var isPinned: Bool = false
 
     var body: some View {
@@ -92,7 +92,7 @@ struct CarParkRow: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 4) {
-                    Text(carPark.facility_name ?? "Car Park \(carPark.facility_id ?? "")")
+                    Text(carPark.facility_name ?? "Car Park \(carPark.facility_id)")
                         .font(.headline)
                         .lineLimit(2)
                     if isPinned {

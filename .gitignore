@@ -1,0 +1,21 @@
+# Secrets
+Park&Ride/Secrets.swift
+
+# macOS
+.DS_Store
+
+# Xcode
+*.xcuserstate
+xcuserdata/
+DerivedData/
+*.moved-aside
+*.hmap
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Backend
+backend/.env
+backend/.venv/
+*.p8

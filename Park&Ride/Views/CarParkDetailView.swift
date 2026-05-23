@@ -2,19 +2,18 @@ import SwiftUI
 import MapKit
 
 struct CarParkDetailView: View {
-    let carPark: CarPark
-    @State private var refreshed: CarPark?
+    let carPark: BackendCarPark
+    @State private var refreshed: BackendCarPark?
     @State private var isRefreshing = false
     @State private var errorMessage: String?
 
-    // Notification config state
     @State private var alertEnabled = false
     @State private var startTime = Calendar.current.date(bySettingHour: 7, minute: 0, second: 0, of: .now)!
     @State private var endTime   = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: .now)!
     @State private var threshold = 20
     @State private var showPermissionDenied = false
 
-    private var displayed: CarPark { refreshed ?? carPark }
+    private var displayed: BackendCarPark { refreshed ?? carPark }
 
     var body: some View {
         List {
@@ -64,11 +63,11 @@ struct CarParkDetailView: View {
 
                 if alertEnabled {
                     DatePicker("From", selection: $startTime, displayedComponents: .hourAndMinute)
-                        .onChange(of: startTime) { _, _ in saveAlert() }
+                        .onChange(of: startTime) { _, _ in Task { await saveAlert() } }
                     DatePicker("To", selection: $endTime, displayedComponents: .hourAndMinute)
-                        .onChange(of: endTime) { _, _ in saveAlert() }
+                        .onChange(of: endTime) { _, _ in Task { await saveAlert() } }
                     Stepper("Below \(threshold)% available", value: $threshold, in: 5...100, step: 5)
-                        .onChange(of: threshold) { _, _ in saveAlert() }
+                        .onChange(of: threshold) { _, _ in Task { await saveAlert() } }
                 }
             } header: {
                 Text("Notifications")
@@ -100,8 +99,10 @@ struct CarParkDetailView: View {
                 .disabled(isRefreshing)
             }
         }
-        .task { await fetchLatest() }
-        .onAppear { loadAlert() }
+        .task {
+            await fetchLatest()
+            await loadAlert()
+        }
         .alert("Notifications Disabled", isPresented: $showPermissionDenied) {
             Button("Open Settings") {
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
@@ -112,15 +113,14 @@ struct CarParkDetailView: View {
         }
     }
 
-    // MARK: – Alert config
+    // MARK: — Alert config
 
-    private func loadAlert() {
-        guard let id = carPark.facility_id,
-              let alert = AlertStore.load(for: id) else { return }
-        alertEnabled  = alert.isEnabled
-        startTime     = timeToDate(hour: alert.startHour, minute: alert.startMinute)
-        endTime       = timeToDate(hour: alert.endHour,   minute: alert.endMinute)
-        threshold     = alert.threshold
+    private func loadAlert() async {
+        guard let alert = try? await BackendService.shared.fetchAlert(facilityId: carPark.facility_id) else { return }
+        alertEnabled = alert.isEnabled
+        startTime    = timeToDate(hour: alert.startHour, minute: alert.startMinute)
+        endTime      = timeToDate(hour: alert.endHour,   minute: alert.endMinute)
+        threshold    = alert.threshold
     }
 
     private func handleToggle(_ enabled: Bool) async {
@@ -132,23 +132,17 @@ struct CarParkDetailView: View {
                 return
             }
         }
-        saveAlert()
+        await saveAlert()
     }
 
-    private func saveAlert() {
-        guard let id = carPark.facility_id else { return }
-        if alertEnabled {
-            let (sh, sm) = dateToTime(startTime)
-            let (eh, em) = dateToTime(endTime)
-            AlertStore.save(ParkAlert(
-                isEnabled: true,
-                startHour: sh, startMinute: sm,
-                endHour: eh,   endMinute: em,
-                threshold: threshold
-            ), for: id)
-        } else {
-            AlertStore.remove(for: id)
-        }
+    private func saveAlert() async {
+        let (sh, sm) = dateToTime(startTime)
+        let (eh, em) = dateToTime(endTime)
+        try? await BackendService.shared.saveAlert(
+            ParkAlert(isEnabled: alertEnabled, startHour: sh, startMinute: sm,
+                      endHour: eh, endMinute: em, threshold: threshold),
+            facilityId: carPark.facility_id
+        )
     }
 
     private func timeToDate(hour: Int, minute: Int) -> Date {
@@ -160,7 +154,7 @@ struct CarParkDetailView: View {
         return (cal.component(.hour, from: date), cal.component(.minute, from: date))
     }
 
-    // MARK: – Maps / fetch
+    // MARK: — Maps / fetch
 
     private func mapItem(for loc: ParkLocation) -> MKMapItem? {
         guard let latStr = loc.latitude, let lonStr = loc.longitude,
@@ -172,11 +166,10 @@ struct CarParkDetailView: View {
     }
 
     private func fetchLatest() async {
-        guard let id = carPark.facility_id else { return }
         isRefreshing = true
         errorMessage = nil
         do {
-            refreshed = try await ParkingService.shared.fetchCarPark(facilityId: id)
+            refreshed = try await BackendService.shared.fetchCarPark(facilityId: carPark.facility_id)
         } catch {
             errorMessage = error.localizedDescription
         }

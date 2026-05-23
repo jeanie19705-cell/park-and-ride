@@ -2,10 +2,10 @@ import SwiftUI
 import MapKit
 
 struct ParkMapView: View {
-    let carParks: [CarPark]
+    let carParks: [BackendCarPark]
 
     @State private var locationManager = LocationManager()
-    @State private var selectedPark: CarPark?
+    @State private var selectedPark: BackendCarPark?
     @State private var position: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: -33.87, longitude: 151.21),
@@ -50,7 +50,7 @@ struct ParkMapView: View {
         }
     }
 
-    private func coordinate(for park: CarPark) -> CLLocationCoordinate2D? {
+    private func coordinate(for park: BackendCarPark) -> CLLocationCoordinate2D? {
         guard let latStr = park.location?.latitude, let lonStr = park.location?.longitude,
               let lat = Double(latStr), let lon = Double(lonStr) else { return nil }
         return CLLocationCoordinate2D(latitude: lat, longitude: lon)
@@ -58,7 +58,7 @@ struct ParkMapView: View {
 }
 
 struct ParkPin: View {
-    let carPark: CarPark
+    let carPark: BackendCarPark
 
     private var color: Color {
         guard let f = carPark.occupancyFraction else { return .gray }
