@@ -1,0 +1,5 @@
+ALTER TABLE carparks
+    ADD COLUMN IF NOT EXISTS suburb   TEXT,
+    ADD COLUMN IF NOT EXISTS address  TEXT,
+    ADD COLUMN IF NOT EXISTS latitude  TEXT,
+    ADD COLUMN IF NOT EXISTS longitude TEXT;

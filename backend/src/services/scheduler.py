@@ -21,16 +21,23 @@ async def _fetch_carparks():
     async with pool.acquire() as conn:
         await conn.executemany(
             """
-            INSERT INTO carparks (facility_id, facility_name, available_spots, total_spots, updated_at)
-            VALUES ($1, $2, $3, $4, NOW())
+            INSERT INTO carparks
+                (facility_id, facility_name, available_spots, total_spots,
+                 suburb, address, latitude, longitude, updated_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
             ON CONFLICT (facility_id)
             DO UPDATE SET
                 facility_name   = $2,
                 available_spots = $3,
                 total_spots     = $4,
+                suburb          = $5,
+                address         = $6,
+                latitude        = $7,
+                longitude       = $8,
                 updated_at      = NOW()
             """,
-            [(p.facility_id, p.facility_name, p.available_spots, p.total_spots) for p in parks],
+            [(p.facility_id, p.facility_name, p.available_spots, p.total_spots,
+              p.suburb, p.address, p.latitude, p.longitude) for p in parks],
         )
     logger.info("Carpark cache updated: %d parks", len(parks))
 
