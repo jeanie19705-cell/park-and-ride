@@ -25,3 +25,28 @@ async def get_carpark(facility_id: str):
     if row is None:
         raise HTTPException(status_code=404, detail="Car park not found")
     return dict(row)
+
+
+@router.get("/{facility_id}/history")
+async def get_carpark_history(facility_id: str):
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT timestamp, available, total
+            FROM occupancy_readings
+            WHERE facility_id = $1
+              AND timestamp >= NOW() - INTERVAL '24 hours'
+            ORDER BY timestamp ASC
+            """,
+            facility_id,
+        )
+    return [
+        {
+            "timestamp": r["timestamp"].isoformat(),
+            "available": r["available"],
+            "total": r["total"],
+            "occupancy_fraction": round(1 - r["available"] / r["total"], 4) if r["total"] else None,
+        }
+        for r in rows
+    ]

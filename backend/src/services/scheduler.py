@@ -39,7 +39,21 @@ async def _fetch_carparks():
             [(p.facility_id, p.facility_name, p.available_spots, p.total_spots,
               p.suburb, p.address, p.latitude, p.longitude) for p in parks],
         )
-    logger.info("Carpark cache updated: %d parks", len(parks))
+
+        readable = [p for p in parks if p.available_spots is not None and p.total_spots]
+        await conn.executemany(
+            """
+            INSERT INTO occupancy_readings (facility_id, available, total)
+            VALUES ($1, $2, $3)
+            """,
+            [(p.facility_id, p.available_spots, p.total_spots) for p in readable],
+        )
+
+        deleted = await conn.fetchval(
+            "DELETE FROM occupancy_readings WHERE timestamp < NOW() - INTERVAL '24 hours' RETURNING count(*)"
+        )
+        logger.info("Carpark cache updated: %d parks | readings inserted: %d | pruned: %d",
+                    len(parks), len(readable), deleted or 0)
 
 
 async def _evaluate_alerts():
