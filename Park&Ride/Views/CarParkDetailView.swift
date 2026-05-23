@@ -89,6 +89,8 @@ struct CarParkDetailView: View {
                 }
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(Color("AppBackground"))
         .navigationTitle(displayed.facility_name ?? "Car Park")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
@@ -179,6 +181,6 @@ struct CarParkDetailView: View {
     private func occupancyColor(_ fraction: Double) -> Color {
         if fraction < 0.60 { return .green }
         if fraction < 0.85 { return .orange }
-        return .red
+        return .occupancyRed
     }
 }

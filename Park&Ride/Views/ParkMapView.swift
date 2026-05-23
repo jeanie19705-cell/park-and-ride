@@ -79,7 +79,7 @@ struct ParkPin: View {
         guard let f = carPark.occupancyFraction else { return .gray }
         if f < 0.60 { return .green }
         if f < 0.85 { return .orange }
-        return .red
+        return .occupancyRed
     }
 
     var body: some View {
@@ -99,7 +99,6 @@ struct ParkPin: View {
                         .foregroundStyle(.white)
                 }
             }
-            // Callout triangle
             Image(systemName: "arrowtriangle.down.fill")
                 .font(.system(size: 10))
                 .foregroundStyle(color)

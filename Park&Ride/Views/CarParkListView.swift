@@ -53,6 +53,8 @@ struct CarParkListView: View {
                     }
 
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color("AppBackground"))
                 .refreshable { await viewModel.refresh() }
                 .overlay {
                     if !searchText.isEmpty && filtered.isEmpty {
@@ -69,6 +71,7 @@ struct CarParkListView: View {
         NavigationLink(destination: CarParkDetailView(carPark: carPark)) {
             CarParkRow(carPark: carPark, isPinned: viewModel.isPinned(carPark))
         }
+        .listRowBackground(Color(.systemBackground).opacity(0.6))
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
             Button { viewModel.togglePin(carPark) } label: {
                 Label(
@@ -134,7 +137,7 @@ struct OccupancyRing: View {
         guard let f = fraction else { return .secondary }
         if f < 0.60 { return .green }
         if f < 0.85 { return .orange }
-        return .red
+        return .occupancyRed
     }
 
     private var label: String {
