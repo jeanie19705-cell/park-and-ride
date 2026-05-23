@@ -71,7 +71,7 @@ struct CarParkListView: View {
         NavigationLink(destination: CarParkDetailView(carPark: carPark)) {
             CarParkRow(carPark: carPark, isPinned: viewModel.isPinned(carPark))
         }
-        .listRowBackground(Color(.systemBackground).opacity(0.6))
+        .listRowBackground(Color(.systemBackground).opacity(0.7))
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
             Button { viewModel.togglePin(carPark) } label: {
                 Label(
