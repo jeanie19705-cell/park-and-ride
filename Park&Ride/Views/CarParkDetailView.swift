@@ -89,6 +89,8 @@ struct CarParkDetailView: View {
                 }
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(Color("AppBackground"))
         .navigationTitle(displayed.facility_name ?? "Car Park")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {

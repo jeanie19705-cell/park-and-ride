@@ -12,13 +12,15 @@ struct SettingsView: View {
                 }
 
                 Section("About") {
-                    LabeledContent("App", value: "Park & Ride")
+                    LabeledContent("App", value: "Park'n Ride")
                     LabeledContent("Data", value: "Transport for NSW")
                     Link(destination: URL(string: "https://buymeacoffee.com/jezi_")!) {
                         Text("☕ Enjoy the app? Buy me a coffee :)")
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Color("AppBackground"))
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

@@ -53,6 +53,8 @@ struct CarParkListView: View {
                     }
 
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color("AppBackground"))
                 .refreshable { await viewModel.refresh() }
                 .overlay {
                     if !searchText.isEmpty && filtered.isEmpty {
@@ -61,7 +63,7 @@ struct CarParkListView: View {
                 }
             }
         }
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Name or suburb")
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search by name or suburb... 👀")
     }
 
     @ViewBuilder
