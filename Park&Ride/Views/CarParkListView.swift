@@ -129,7 +129,7 @@ struct CarParkRow: View {
 struct OccupancyRing: View {
     let fraction: Double?
 
-    private var pct: Double { fraction ?? 0 }
+    private var pct: Double { fraction.map { 1 - $0 } ?? 0 }
 
     private var ringColor: Color {
         guard let f = fraction else { return .secondary }

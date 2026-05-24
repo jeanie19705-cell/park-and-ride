@@ -60,7 +60,7 @@ struct CarParkDetailView: View {
                 }
             }
 
-            Section("Live Occupancy") {
+            Section("Live Space Availability") {
                 if let available = displayed.availableSpots, let total = displayed.totalSpots {
                     let fraction = displayed.occupancyFraction ?? 0
                     let color = occupancyColor(fraction)
@@ -69,13 +69,21 @@ struct CarParkDetailView: View {
                         Text("\(available)").foregroundStyle(color).fontWeight(.semibold)
                     }
                     LabeledContent("Total capacity", value: "\(total)")
-                    ProgressView(value: fraction).tint(color).padding(.vertical, 4)
+                    HStack(spacing: 8) {
+                        ProgressView(value: 1 - fraction).tint(color)
+                        Text("\(Int((1 - fraction) * 100))%")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(color)
+                            .frame(width: 36, alignment: .trailing)
+                    }
+                    .padding(.vertical, 4)
                 } else {
                     Text("No occupancy data available").foregroundStyle(.secondary)
                 }
             }
 
-            Section("Today's Occupancy") {
+            Section("Today's Space Availability") {
                 if isLoadingHistory {
                     ChartSkeleton()
                         .frame(height: 160)
@@ -92,7 +100,7 @@ struct CarParkDetailView: View {
                             ForEach(segment.readings) { reading in
                                 LineMark(
                                     x: .value("Time", reading.timestamp),
-                                    y: .value("Occupancy", reading.fraction * 100),
+                                    y: .value("Occupancy", (1 - reading.fraction) * 100),
                                     series: .value("s", idx)
                                 )
                                 .foregroundStyle(segment.color)
@@ -102,7 +110,7 @@ struct CarParkDetailView: View {
                         ForEach(history) { reading in
                             AreaMark(
                                 x: .value("Time", reading.timestamp),
-                                y: .value("Occupancy", reading.fraction * 100)
+                                y: .value("Occupancy", (1 - reading.fraction) * 100)
                             )
                             .foregroundStyle(chartColor.opacity(0.08))
                             .interpolationMethod(.catmullRom)
