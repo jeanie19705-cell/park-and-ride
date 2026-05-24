@@ -31,12 +31,10 @@ struct CarParkListView: View {
                     Button("Retry") { Task { await viewModel.refresh() } }
                         .buttonStyle(.borderedProminent)
                 }
-            } else if viewModel.carParks.isEmpty && !viewModel.isLoading {
-                ContentUnavailableView {
-                    Label("No Car Parks", systemImage: "parkingsign.circle")
-                } description: {
-                    Text("Unable to load car parks. Pull down to retry.")
-                }
+            } else if viewModel.carParks.isEmpty {
+                ParkAnimation()
+                    .frame(width: 180)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 List {
                     if searchText.isEmpty {

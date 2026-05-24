@@ -10,10 +10,25 @@ import SwiftUI
 @main
 struct Park_RideApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @State private var viewModel = ParkingViewModel()
+    @State private var showSplash = true
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ZStack {
+                ContentView(viewModel: viewModel)
+                if showSplash {
+                    SplashView(
+                        canDismiss: !viewModel.carParks.isEmpty || viewModel.errorMessage != nil
+                    ) {
+                        showSplash = false
+                    }
+                }
+            }
+            .task {
+                viewModel.startAutoRefresh()
+                await NotificationService.registerForPushNotifications()
+            }
         }
     }
 }

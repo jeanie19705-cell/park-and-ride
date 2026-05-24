@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var viewModel = ParkingViewModel()
+    let viewModel: ParkingViewModel
     @State private var showSettings = false
 
     var body: some View {
@@ -45,8 +45,6 @@ struct ContentView: View {
         }
         .task {
             applyColorScheme(UserDefaults.standard.string(forKey: "app_color_scheme") ?? "light")
-            viewModel.startAutoRefresh()
-            await NotificationService.registerForPushNotifications()
         }
     }
 
@@ -86,5 +84,5 @@ private func applyStyle(_ style: UIUserInterfaceStyle, to vc: UIViewController?)
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: ParkingViewModel())
 }
