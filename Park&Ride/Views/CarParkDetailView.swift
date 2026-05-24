@@ -326,8 +326,6 @@ struct CarParkDetailView: View {
 }
 
 struct ChartSkeleton: View {
-    @State private var opacity = false
-
     var body: some View {
         GeometryReader { geo in
             let w = geo.size.width
@@ -338,7 +336,7 @@ struct ChartSkeleton: View {
             let calendar = Calendar.current
 
             VStack(spacing: 4) {
-                ZStack(alignment: .bottomLeading) {
+                ZStack {
                     SkeletonLinePath(points: points, size: CGSize(width: w, height: chartH), filled: true)
                         .fill(Color(.systemFill).opacity(0.4))
                     SkeletonLinePath(points: points, size: CGSize(width: w, height: chartH), filled: false)
@@ -347,6 +345,7 @@ struct ChartSkeleton: View {
                         .fill(Color(.systemFill))
                         .frame(width: w, height: 1)
                         .frame(maxHeight: .infinity, alignment: .bottom)
+                    ProgressView()
                 }
                 .frame(height: chartH)
 
@@ -362,9 +361,6 @@ struct ChartSkeleton: View {
                 }
             }
         }
-        .opacity(opacity ? 0.5 : 1.0)
-        .animation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true), value: opacity)
-        .onAppear { opacity = true }
     }
 }
 
@@ -400,4 +396,3 @@ struct SkeletonLinePath: Shape {
         return path
     }
 }
-

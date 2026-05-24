@@ -43,9 +43,7 @@ struct ContentView: View {
         .onChange(of: showSettings) { _, isPresented in
             if !isPresented { Task { await viewModel.refresh() } }
         }
-        .task {
-            applyColorScheme(UserDefaults.standard.string(forKey: "app_color_scheme") ?? "light")
-        }
+
     }
 
     @ViewBuilder

@@ -23,13 +23,27 @@ struct BackendService {
         try await get("/carparks/\(facilityId)")
     }
 
+    private struct HistoryCacheEntry {
+        let readings: [OccupancyReading]
+        let fetchedAt: Date
+    }
+    private static var historyCache: [String: HistoryCacheEntry] = [:]
+    private let historyCacheTTL: TimeInterval = 60
+
     func fetchHistory(facilityId: String) async throws -> [OccupancyReading] {
+        if let cached = Self.historyCache[facilityId],
+           Date().timeIntervalSince(cached.fetchedAt) < historyCacheTTL {
+            return cached.readings
+        }
+
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         var req = URLRequest(url: URL(string: base + "/carparks/\(facilityId)/history")!)
         req.setValue(apiKey, forHTTPHeaderField: "x-api-key")
         let (data, _) = try await URLSession.shared.data(for: req)
-        return try decoder.decode([OccupancyReading].self, from: data)
+        let readings = try decoder.decode([OccupancyReading].self, from: data)
+        Self.historyCache[facilityId] = HistoryCacheEntry(readings: readings, fetchedAt: Date())
+        return readings
     }
 
     // MARK: — Device

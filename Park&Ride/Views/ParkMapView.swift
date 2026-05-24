@@ -8,10 +8,11 @@ struct ParkMapView: View {
 
     @State private var locationManager = LocationManager()
     @State private var selectedPark: BackendCarPark?
+    @State private var hasInitiallycentered = false
     @State private var position: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: -33.87, longitude: 151.21),
-            span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+            span: MKCoordinateSpan(latitudeDelta: 0.15, longitudeDelta: 0.15)
         )
     )
 
@@ -36,11 +37,12 @@ struct ParkMapView: View {
             locationManager.requestPermission()
         }
         .onChange(of: locationManager.userLocation) { _, location in
-            guard let location, selectedPark == nil else { return }
+            guard let location, !hasInitiallycentered else { return }
+            hasInitiallycentered = true
             withAnimation {
                 position = .region(MKCoordinateRegion(
                     center: location.coordinate,
-                    span: MKCoordinateSpan(latitudeDelta: 0.3, longitudeDelta: 0.3)
+                    span: MKCoordinateSpan(latitudeDelta: 0.15, longitudeDelta: 0.15)
                 ))
             }
         }

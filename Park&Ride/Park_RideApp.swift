@@ -26,6 +26,7 @@ struct Park_RideApp: App {
                 }
             }
             .task {
+                applyColorScheme(UserDefaults.standard.string(forKey: "app_color_scheme") ?? "light")
                 viewModel.startAutoRefresh()
                 await NotificationService.registerForPushNotifications()
             }

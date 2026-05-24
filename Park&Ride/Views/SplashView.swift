@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ParkAnimation: View {
-    private let frames = ["1", "2", "3", "4"]
+    private let frames = ["launch-1", "launch-2", "launch-3", "launch-4"]
     private let fps = 0.2
     @State private var frameIndex = 0
 
