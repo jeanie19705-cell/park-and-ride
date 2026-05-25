@@ -221,8 +221,13 @@ struct CarParkDetailView: View {
             }
 
             Section {
-                if let updated = displayed.MessageDate {
-                    LabeledContent("Data timestamp", value: updated).font(.callout)
+                if let updated = displayed.MessageDate,
+                   let date = ISO8601DateFormatter().date(from: updated) {
+                    LabeledContent("Last updated") {
+                        Text(date, format: .relative(presentation: .named))
+                            .foregroundStyle(.secondary)
+                    }
+                    .font(.callout)
                 }
                 if isRefreshing {
                     HStack {

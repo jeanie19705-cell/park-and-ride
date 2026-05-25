@@ -9,6 +9,15 @@ from services import apns, tfnsw
 logger = logging.getLogger(__name__)
 
 
+def _clamp_available(available, total):
+    if available is None:
+        return None
+    clamped = max(0, available)
+    if total:
+        clamped = min(clamped, total)
+    return clamped
+
+
 async def _fetch_carparks():
     """Job 1: Pull latest data from TfNSW and cache it in the DB."""
     try:
@@ -36,7 +45,9 @@ async def _fetch_carparks():
                 longitude       = $8,
                 updated_at      = NOW()
             """,
-            [(p.facility_id, p.facility_name, p.available_spots, p.total_spots,
+            [(p.facility_id, p.facility_name,
+              _clamp_available(p.available_spots, p.total_spots),
+              p.total_spots,
               p.suburb, p.address, p.latitude, p.longitude) for p in parks],
         )
 
@@ -46,7 +57,7 @@ async def _fetch_carparks():
             INSERT INTO occupancy_readings (facility_id, available, total)
             VALUES ($1, $2, $3)
             """,
-            [(p.facility_id, p.available_spots, p.total_spots) for p in readable],
+            [(p.facility_id, _clamp_available(p.available_spots, p.total_spots), p.total_spots) for p in readable],
         )
 
         deleted = await conn.fetchval(
