@@ -60,11 +60,12 @@ async def _fetch_carparks():
             [(p.facility_id, _clamp_available(p.available_spots, p.total_spots), p.total_spots) for p in readable],
         )
 
-        deleted = await conn.fetchval(
-            "DELETE FROM occupancy_readings WHERE timestamp < NOW() - INTERVAL '24 hours' RETURNING count(*)"
+        status = await conn.execute(
+            "DELETE FROM occupancy_readings WHERE timestamp < NOW() - INTERVAL '24 hours'"
         )
+        deleted = int(status.split()[-1])
         logger.info("Carpark cache updated: %d parks | readings inserted: %d | pruned: %d",
-                    len(parks), len(readable), deleted or 0)
+                    len(parks), len(readable), deleted)
 
 
 async def _evaluate_alerts():
