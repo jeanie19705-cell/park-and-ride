@@ -53,7 +53,6 @@ struct CarParkListView: View {
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color("AppBackground"))
-                .refreshable { await viewModel.refresh() }
                 .overlay {
                     if !searchText.isEmpty && filtered.isEmpty {
                         ContentUnavailableView.search(text: searchText)
@@ -66,7 +65,7 @@ struct CarParkListView: View {
 
     @ViewBuilder
     private func row(_ carPark: BackendCarPark) -> some View {
-        NavigationLink(destination: CarParkDetailView(carPark: carPark)) {
+        NavigationLink(destination: CarParkDetailView(carPark: carPark, viewModel: viewModel)) {
             CarParkRow(carPark: carPark, isPinned: viewModel.isPinned(carPark))
         }
         .listRowBackground(Color(.systemBackground).opacity(0.7))

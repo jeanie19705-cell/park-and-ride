@@ -48,20 +48,7 @@ struct ParkMapView: View {
         }
         .sheet(item: $selectedPark) { park in
             NavigationStack {
-                CarParkDetailView(carPark: park)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button {
-                                viewModel.togglePin(park)
-                            } label: {
-                                Label(
-                                    viewModel.isPinned(park) ? "Unfavourite" : "Favourite",
-                                    systemImage: viewModel.isPinned(park) ? "star.fill" : "star"
-                                )
-                            }
-                            .tint(.yellow)
-                        }
-                    }
+                CarParkDetailView(carPark: park, viewModel: viewModel)
             }
             .presentationDetents([.medium, .large])
         }

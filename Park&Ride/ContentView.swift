@@ -51,20 +51,19 @@ struct ContentView: View {
         if viewModel.isLoading {
             ProgressView()
                 .scaleEffect(0.8)
-                .allowsHitTesting(false)
         } else if viewModel.lastUpdated != nil {
-            Text("↻ \(viewModel.secondsUntilRefresh)s")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .monospacedDigit()
-                .fixedSize()
-                .allowsHitTesting(false)
+            Button { viewModel.startAutoRefresh() } label: {
+                Text("↻ \(viewModel.secondsUntilRefresh)s")
+                    .font(.caption2)
+                    .monospacedDigit()
+                    .fixedSize()
+            }
         }
     }
 }
 
 func applyColorScheme(_ scheme: String) {
-    let style: UIUserInterfaceStyle = scheme == "dark" ? .dark : .light
+    let style: UIUserInterfaceStyle = scheme == "dark" ? .dark : scheme == "light" ? .light : .unspecified
     UIApplication.shared.connectedScenes
         .compactMap { $0 as? UIWindowScene }
         .flatMap { $0.windows }

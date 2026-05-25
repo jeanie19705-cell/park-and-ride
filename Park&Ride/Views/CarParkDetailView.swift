@@ -4,6 +4,7 @@ import Charts
 
 struct CarParkDetailView: View {
     let carPark: BackendCarPark
+    let viewModel: ParkingViewModel
     @State private var refreshed: BackendCarPark?
     @State private var isRefreshing = false
     @State private var errorMessage: String?
@@ -22,6 +23,12 @@ struct CarParkDetailView: View {
     private var chartColor: Color {
         guard let f = displayed.occupancyFraction else { return .secondary }
         return Self.occupancyColor(f)
+    }
+
+    private static func parseISO8601(_ string: String) -> Date? {
+        let withFrac = ISO8601DateFormatter()
+        withFrac.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return withFrac.date(from: string) ?? ISO8601DateFormatter().date(from: string)
     }
 
     private static func occupancyColor(_ fraction: Double) -> Color {
@@ -222,9 +229,9 @@ struct CarParkDetailView: View {
 
             Section {
                 if let updated = displayed.MessageDate,
-                   let date = ISO8601DateFormatter().date(from: updated) {
+                   let date = Self.parseISO8601(updated) {
                     LabeledContent("Last updated") {
-                        Text(date, format: .relative(presentation: .named))
+                        Text(date, format: .dateTime.day().month().hour().minute())
                             .foregroundStyle(.secondary)
                     }
                     .font(.callout)
@@ -242,6 +249,12 @@ struct CarParkDetailView: View {
         .navigationTitle(displayed.facility_name ?? "Car Park")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button { viewModel.togglePin(displayed) } label: {
+                    Image(systemName: viewModel.isPinned(displayed) ? "star.fill" : "star")
+                }
+                .tint(.yellow)
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button { Task { await fetchLatest() } } label: {
                     Image(systemName: "arrow.clockwise")
