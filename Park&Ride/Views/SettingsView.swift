@@ -39,7 +39,7 @@ struct SettingsView: View {
                 }
 
                 Section("Get In Touch") {
-                    Link(destination: URL(string: "mailto:jeanie19705@gmail.com?subject=Park%20%26%20Ride%20Feedback")!) {
+                    Link(destination: URL(string: "mailto:parknride.app@gmail.com?subject=Park%20%26%20Ride%20Feedback")!) {
                         HStack {
                             Text("💬 Send feedback")
                             Spacer()
