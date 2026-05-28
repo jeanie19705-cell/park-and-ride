@@ -6,6 +6,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
     ) {
         let token = deviceToken.map { String(format: "%02x", $0) }.joined()
+        print("APNs device token: \(token)")
         Task {
             try? await BackendService.shared.registerDevice(apnsToken: token)
         }
