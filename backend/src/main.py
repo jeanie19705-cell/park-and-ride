@@ -13,6 +13,9 @@ from routes import alerts, carparks, devices
 from services import scheduler
 
 logging.basicConfig(level=logging.INFO)
+# Route app loggers through uvicorn so Railway colours them correctly
+for _name in ("services", "routes", "db", "apscheduler"):
+    logging.getLogger(_name).handlers = logging.getLogger("uvicorn").handlers
 
 
 @asynccontextmanager

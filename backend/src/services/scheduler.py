@@ -90,10 +90,16 @@ async def _evaluate_alerts():
         now = datetime.now(timezone.utc).astimezone()
         current_minutes = now.hour * 60 + now.minute
 
+        logger.info("[evaluate_alerts] found %d enabled alert(s), current_minutes=%d", len(rows), current_minutes)
+
+        skipped_time = 0
+        to_fire = 0
         for row in rows:
             start = row["start_hour"] * 60 + row["start_minute"]
             end = row["end_hour"] * 60 + row["end_minute"]
             if not (start <= current_minutes <= end):
+                skipped_time += 1
+                logger.debug("[evaluate_alerts] skipping device=%s facility=%s — outside time window (%d-%d)", row["device_id"], row["facility_id"], start, end)
                 continue
 
             available_pct = int(row["available_spots"] / row["total_spots"] * 100)
@@ -112,16 +118,19 @@ async def _evaluate_alerts():
             was_firing = state["is_firing"] if state else False
 
             if is_below and not was_firing:
+                to_fire += 1
                 logger.info(
                     "[alert FIRE] → device=%s facility=%s apns_token=%s msg='%d%% available'",
                     row["device_id"], row["facility_id"], row["apns_token"], available_pct,
                 )
                 try:
+                    logger.info("[apns] sending to token=%s...%s", row["apns_token"][:8], row["apns_token"][-8:])
                     await apns.send_alert(
                         apns_token=row["apns_token"],
                         title=row["facility_name"] or "Park & Ride",
                         body=f"Only {available_pct}% available — {row['available_spots']} of {row['total_spots']} spaces left.",
                     )
+                    logger.info("[apns] sent successfully, updating alert_state is_firing=TRUE")
                     await conn.execute(
                         """
                         INSERT INTO alert_state (device_id, facility_id, is_firing, updated_at)
@@ -132,7 +141,8 @@ async def _evaluate_alerts():
                         row["device_id"], row["facility_id"],
                     )
                 except Exception as exc:
-                    logger.error("APNs send failed for %s: %s", row["facility_id"], exc)
+                    logger.error("[apns] send failed for facility=%s token=%s...%s error=%s",
+                                 row["facility_id"], row["apns_token"][:8], row["apns_token"][-8:], exc)
 
             elif not is_below and was_firing:
                 logger.info(
@@ -148,6 +158,8 @@ async def _evaluate_alerts():
                     """,
                     row["device_id"], row["facility_id"],
                 )
+
+        logger.info("[evaluate_alerts] done — skipped_time=%d fired=%d", skipped_time, to_fire)
 
 
 def start() -> AsyncIOScheduler:
