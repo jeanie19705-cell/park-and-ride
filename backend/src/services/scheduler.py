@@ -1,5 +1,8 @@
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+SYDNEY_TZ = ZoneInfo("Australia/Sydney")
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
@@ -87,14 +90,20 @@ async def _evaluate_alerts():
             """
         )
 
-        now = datetime.now(timezone.utc).astimezone()
+        now = datetime.now(SYDNEY_TZ)
         current_minutes = now.hour * 60 + now.minute
 
         for row in rows:
             start = row["start_hour"] * 60 + row["start_minute"]
             end = row["end_hour"] * 60 + row["end_minute"]
             if not (start <= current_minutes <= end):
+                logger.info("Time window skip: facility=%s window=%02d:%02d-%02d:%02d sydney_now=%02d:%02d",
+                            row["facility_id"], row["start_hour"], row["start_minute"],
+                            row["end_hour"], row["end_minute"], now.hour, now.minute)
                 continue
+            logger.info("Time window match: facility=%s window=%02d:%02d-%02d:%02d sydney_now=%02d:%02d",
+                        row["facility_id"], row["start_hour"], row["start_minute"],
+                        row["end_hour"], row["end_minute"], now.hour, now.minute)
 
             available_pct = int(row["available_spots"] / row["total_spots"] * 100)
             is_below = available_pct < row["threshold"]
