@@ -99,7 +99,7 @@ async def _evaluate_alerts():
             end = row["end_hour"] * 60 + row["end_minute"]
             if not (start <= current_minutes <= end):
                 skipped_time += 1
-                logger.debug("[evaluate_alerts] skipping device=%s facility=%s — outside time window (%d-%d)", row["device_id"], row["facility_id"], start, end)
+                logger.info("[evaluate_alerts] skipping device=%s facility=%s — outside time window (%d-%d)", row["device_id"], row["facility_id"], start, end)
                 continue
 
             available_pct = int(row["available_spots"] / row["total_spots"] * 100)
@@ -116,6 +116,9 @@ async def _evaluate_alerts():
                 row["device_id"], row["facility_id"],
             )
             was_firing = state["is_firing"] if state else False
+
+            if is_below and was_firing:
+                logger.info("[alert check] already firing for device=%s facility=%s — skipping", row["device_id"], row["facility_id"])
 
             if is_below and not was_firing:
                 to_fire += 1
