@@ -49,6 +49,14 @@ async def create_alert(body: AlertBody, device_id: str = Depends(require_device_
             body.start_hour, body.start_minute,
             body.end_hour, body.end_minute, body.is_enabled,
         )
+        if not body.is_enabled:
+            await conn.execute(
+                """
+                UPDATE alert_state SET is_firing = FALSE, updated_at = NOW()
+                WHERE device_id = $1 AND facility_id = $2
+                """,
+                device_id, body.facility_id,
+            )
     return dict(row)
 
 
