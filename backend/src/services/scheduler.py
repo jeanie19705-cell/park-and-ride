@@ -97,13 +97,7 @@ async def _evaluate_alerts():
             start = row["start_hour"] * 60 + row["start_minute"]
             end = row["end_hour"] * 60 + row["end_minute"]
             if not (start <= current_minutes <= end):
-                logger.info("Time window skip: facility=%s window=%02d:%02d-%02d:%02d sydney_now=%02d:%02d",
-                            row["facility_id"], row["start_hour"], row["start_minute"],
-                            row["end_hour"], row["end_minute"], now.hour, now.minute)
                 continue
-            logger.info("Time window match: facility=%s window=%02d:%02d-%02d:%02d sydney_now=%02d:%02d",
-                        row["facility_id"], row["start_hour"], row["start_minute"],
-                        row["end_hour"], row["end_minute"], now.hour, now.minute)
 
             available_pct = int(row["available_spots"] / row["total_spots"] * 100)
             is_below = available_pct < row["threshold"]
