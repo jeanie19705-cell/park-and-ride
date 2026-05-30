@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Adobe Express - file.png",
+      "filename" : "4.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,6 +13,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "8.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

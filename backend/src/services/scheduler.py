@@ -112,15 +112,6 @@ async def _evaluate_alerts():
             was_firing = state["is_firing"] if state else False
 
             if is_below and not was_firing:
-                await conn.execute(
-                    """
-                    INSERT INTO alert_state (device_id, facility_id, is_firing, updated_at)
-                    VALUES ($1, $2, TRUE, NOW())
-                    ON CONFLICT (device_id, facility_id)
-                    DO UPDATE SET is_firing = TRUE, updated_at = NOW()
-                    """,
-                    row["device_id"], row["facility_id"],
-                )
                 logger.info(
                     "[alert FIRE] → device=%s facility=%s apns_token=%s msg='%d%% available'",
                     row["device_id"], row["facility_id"], row["apns_token"], available_pct,
@@ -130,6 +121,15 @@ async def _evaluate_alerts():
                         apns_token=row["apns_token"],
                         title=row["facility_name"] or "Park & Ride",
                         body=f"Only {available_pct}% available — {row['available_spots']} of {row['total_spots']} spaces left.",
+                    )
+                    await conn.execute(
+                        """
+                        INSERT INTO alert_state (device_id, facility_id, is_firing, updated_at)
+                        VALUES ($1, $2, TRUE, NOW())
+                        ON CONFLICT (device_id, facility_id)
+                        DO UPDATE SET is_firing = TRUE, updated_at = NOW()
+                        """,
+                        row["device_id"], row["facility_id"],
                     )
                 except Exception as exc:
                     logger.error("APNs send failed for %s: %s", row["facility_id"], exc)
